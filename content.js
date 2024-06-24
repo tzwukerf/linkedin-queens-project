@@ -34,6 +34,9 @@ for (var i = 0; i < SQUARES; i++) {
     }
 }
 
+
+var c_grid = structuredClone(t_grid);
+
 // tested and saw it works as intended to get the board
 // color is the array of the different colors
 // t_grid is the grid of every row
@@ -52,6 +55,7 @@ console.log(color);
 
 // We'll say a Queen is -1
 
+
 function isSafe(board, row, col) {
     
     let c = t_grid[row][col];
@@ -67,13 +71,13 @@ function isSafe(board, row, col) {
     for (i = -1; i <= 1; i++) {
         for (var j = -1; j <= 1; j++) {
             
-            if (row + i < 0 || col + i < 0) {
+            if (row + i < 0 || col + j < 0) {
                 continue;
             }
-            if (row + i > 9 || col + i > 9) {
+            if (row + i > 9 || col + j > 9) {
                 continue;
             }
-            if (board[row + i][col + i] == -1) {
+            if (board[row + i][col + j] == -1) {
                 return false;
             }
         }
@@ -135,10 +139,11 @@ function solver() {
         return false;
     }
  
-    console.log("SOLVED BOARD");
     console.log(board);
-    return true;
+    return board;
 
 }
+// code to get it onto linkedin
 
-solver();
+var s_grid = solver();
+
