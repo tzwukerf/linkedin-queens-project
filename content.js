@@ -1,12 +1,24 @@
+
+setTimeout(function() {var resume = document.getElementsByTagName('button');
+console.log(resume);
+resume[11].click();
+}, 2000);
+
+setTimeout(outerWrapper, 5000);
+
 // Queen solving script
 
-const SQUARES = 10; //number of rows, columns, queens, unique colors
-var color = [];
-var grid = document.getElementById('queens-grid');
-var t_grid = [];
-var colArr = [];
+function outerWrapper() { //no sleep in javascript
 
-for (var i = 0; i < SQUARES; i++) {
+let color = [];
+let grid = document.getElementById('queens-grid');
+
+let SQUARES = Math.sqrt(grid.children.length); //number of rows, columns, queens, unique colors
+let t_grid = [];
+
+var auto = true;
+
+for (let i = 0; i < SQUARES; i++) {
     //initialize 10 colors, since we can't have
     //more colors than rows
     //var temp = "" + i
@@ -15,27 +27,24 @@ for (var i = 0; i < SQUARES; i++) {
     t_grid.push([]);
 }
 
-console.log(color)
-
-var children = grid.children;
-for (var i = 0; i < children.length; i++) {
-    var k = Math.floor(i / 10);
-    for (var j = 0; j < children[i].classList.length; j++) {
+let children = grid.children;
+for (let i = 0; i < children.length; i++) {
+    let k = Math.floor(i / SQUARES);
+    for (let j = 0; j < children[i].classList.length; j++) {
         if (children[i].classList[j].match(/^cell-color-/)) {
+            console.log(parseInt(children[i].classList[j].slice(-1)))
             t_grid[k].push(parseInt(children[i].classList[j].slice(-1)));
         }
     }
 }
 
-for (var i = 0; i < SQUARES; i++) {
-    for (var j = 0; j < SQUARES; j++) {
-        console.log(parseInt(t_grid[i][j]))
-        color[parseInt(t_grid[i][j])].push([i,j]);
+for (let i = 0; i < SQUARES; i++) {
+    for (let j = 0; j < SQUARES; j++) {
+        color[t_grid[i][j]].push([i,j]);
     }
 }
 
-
-var c_grid = structuredClone(t_grid);
+let c_grid = structuredClone(t_grid);
 
 // tested and saw it works as intended to get the board
 // color is the array of the different colors
@@ -60,7 +69,7 @@ function isSafe(board, row, col) {
     
     let c = t_grid[row][col];
     // rows and columns check
-    for (var i = 0; i < SQUARES; i++) {
+    for (let i = 0; i < SQUARES; i++) {
         if (board[row][i] == -1  || board[i][col] == -1) {
             // this is assuming that the queen isn't put there yet
             return false;
@@ -69,12 +78,12 @@ function isSafe(board, row, col) {
 
     // Touching check
     for (i = -1; i <= 1; i++) {
-        for (var j = -1; j <= 1; j++) {
+        for (let j = -1; j <= 1; j++) {
             
             if (row + i < 0 || col + j < 0) {
                 continue;
             }
-            if (row + i > 9 || col + j > 9) {
+            if (row + i > SQUARES - 1 || col + j > SQUARES - 1) {
                 continue;
             }
             if (board[row + i][col + j] == -1) {
@@ -84,7 +93,7 @@ function isSafe(board, row, col) {
     }
 
     // Same color check 
-    for (var i = 0; i < color[c].length; i++) {
+    for (let i = 0; i < color[c].length; i++) {
         if (board[color[c][i][0]][color[c][i][1]] == -1) {
             return false;
         }
@@ -143,7 +152,140 @@ function solver() {
     return board;
 
 }
+
 // code to get it onto linkedin
 
-var s_grid = solver();
+let s_grid = solver();
 
+if (auto) {
+    for (let i = 0; i < SQUARES * SQUARES; i++) {
+        let j = Math.floor(i / SQUARES);
+        let k = i % SQUARES;
+        if (s_grid[j][k] == -1) {
+
+            function triggerMouseEvent (node, eventType) {
+                var clickEvent = new Event(eventType, { bubbles: true, cancelable: true });
+                node.dispatchEvent (clickEvent);
+            }
+
+            let test = document.querySelector(".queens-cell");
+            console.log("TEST");
+            console.log(test);
+            let square_elem = document.querySelector('div[data-cell-idx="' + i + '"]');
+            console.log("SQUARE ELEM " + i + ": ");
+            console.log(square_elem);
+
+            // Taken from this Stack Overflow Comment: https://stackoverflow.com/a/24026594
+
+            square_elem.onmousedown = function () {
+                     console.log("User moused down on cell " + i);
+                     return true; // Not needed, as long as you don't return false
+            };
+
+            if (square_elem) {
+                //--- Simulate a natural mouse-click sequence.
+                //twice
+                triggerMouseEvent (square_elem, "mouseover");
+                triggerMouseEvent (square_elem, "mousedown");
+                triggerMouseEvent (square_elem, "mouseup");
+
+                triggerMouseEvent (square_elem, "mouseover");
+                triggerMouseEvent (square_elem, "mousedown");
+                triggerMouseEvent (square_elem, "mouseup");
+            }
+            else
+                console.log ("*** Target node not found!");
+            
+            
+
+
+            // let square_elem = document.querySelector('div[data-cell-idx="' + i + '"]').children[0];
+            // square_elem.innerHTML = square_elem.innerHTML.replace(/<!--(?:.|\n)*?-->/gm, '');
+            // console.log("SQUARE ELEM " + i + ": ");
+            
+            // console.log(square_elem);
+
+            // square_elem.onmousedown = function () {
+            //     console.log("User moused down");
+            //     return true; // Not needed, as long as you don't return false
+            // };
+
+
+
+
+
+            //supposed to click twice, doesn't work
+            // square_elem.click();
+            // square_elem.dispatchEvent(new MouseEvent('click'));
+
+            // let temp_span = document.createElement("span");
+            // temp_span.setAttribute("class", "cell-input cell-input--queen");
+            
+            // let svg = document.createElement("svg");
+            // svg.setAttribute("class", "queens-icon-svg");
+            // svg.setAttribute("width", "24");
+            // svg.setAttribute("height", "24");
+            // svg.setAttribute("viewBox", "0 0 24 24");
+            // svg.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+
+            // let title = document.createElement("title");
+            // title.innerHTML = "Queen";
+            // svg.append(title);
+
+
+            // let g = document.createElement("g");
+            // g.setAttribute("clip-path", "url(#clip0_3812_70403)");
+            // let path = document.createElement("path");
+            // path.setAttribute("d", "M23.25 7C23.25 7.69 22.69 8.25 22 8.25C21.89 8.25 21.78 8.21 21.68 8.18L19 17.99H5L2.32 8.18C2.21 8.21 2.11 8.25 2 8.25C1.31 8.25 0.75 7.69 0.75 7C0.75 6.31 1.31 5.75 2 5.75C2.69 5.75 3.25 6.31 3.25 7C3.25 7.31 3.13 7.59 2.94 7.8L9 13L11.65 4.18C11.14 4.03 10.75 3.57 10.75 3C10.75 2.31 11.31 1.75 12 1.75C12.69 1.75 13.25 2.31 13.25 3C13.25 3.56 12.87 4.02 12.35 4.18L15 13L21.06 7.8C20.87 7.58 20.75 7.31 20.75 7C20.75 6.31 21.31 5.75 22 5.75C22.69 5.75 23.25 6.31 23.25 7ZM19 19H5C4.45 19 4 19.45 4 20C4 20.55 4.45 21 5 21H19C19.55 21 20 20.55 20 20C20 19.45 19.55 19 19 19Z")
+            // g.append(path)
+            // svg.append(g)
+
+            // let def = document.createElement("def");
+            // let clip = document.createElement("clipPath");
+            // clip.setAttribute("id", "clip0_3812_70403");
+            // let rect = document.createElement("rect");
+            // rect.setAttribute("width", "24");
+            // rect.setAttribute("height", "24");
+            // rect.setAttribute("fill", "white");
+            // clip.append(rect);
+            // def.append(clip);
+            // svg.append(def)
+            // temp_span.append(svg)
+            // square_elem.append(temp_span);
+
+
+
+        }
+        
+    }
+
+    // setTimeout(function() {
+    //     chrome.tabs.query({active:true,currentWindow:true},function(tabs){
+    //         //'tabs' will be an array with only one element: an Object describing the active tab
+    //         //  in the current window. To remove the tab, pass the ID: to chrome.tabs.remove().
+    //         chrome.tabs.remove(tabs[0].id);
+    //     });
+    // }, 1000);
+} else {
+    let toolbar = document.getElementsByClassName("pr-game-web__toolbar-actions")[0];
+    let solveButton = document.createElement("button");
+    solveButton.setAttribute("class", "artdeco-button");
+    solveButton.setAttribute("class", "artdeco-button--muted");
+    solveButton.setAttribute("class", "artdeco-button--2");
+    solveButton.setAttribute("class", "artdeco-button--secondary");
+    solveButton.setAttribute("class", "ember-view");
+    solveButton.setAttribute("class", "aux-controls-btn");
+
+    solveButton.setAttribute("id", "auto-off-button");
+    solveButton.setAttribute("data-aux-btn", "clear");
+    solveButton.setAttribute("type", "button");
+
+    let temp_span = document.createElement("span");
+    temp_span.setAttribute("class", "artdeco-button__text");
+    temp_span.innerHTML = "Auto Solve";
+
+    solveButton.append(temp_span);
+    toolbar.append(solveButton);
+    toolbar.insertBefore(solveButton, toolbar.firstChild);
+}
+}

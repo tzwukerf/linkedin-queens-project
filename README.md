@@ -1,9 +1,9 @@
 # linkedin-queens-project
 repo of a project auto solves queens on linkedin
 
-plan:
-- make a google extension that solves it (doing it this way or else i'm gonna have to bypass linkedin security and csrf tokens when i think it'd be easier to not do that)
-- crontab job to do this every day
+TODO:
+- find a way to click the queens onto linkedin
+- find a way to run this script auto or not auto (a button to solve at the top)
 
 
 linkedin token?
