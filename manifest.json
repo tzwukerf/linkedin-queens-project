@@ -1,0 +1,15 @@
+{
+    "manifest_version": 3,
+    "name": "LinkedIn Queen Extension",
+    "description": "Base Level Extension",
+    "version": "1.0",
+    "action": {
+      "default_popup": "start.html",
+      "default_icon": "temp_png.png"
+    },
+    "permissions": ["storage","activeTab","declarativeContent"],
+    "content_scripts": [{
+        "js": ["content.js"],
+        "matches": ["https://www.linkedin.com/games/queens/"]
+    }]
+  }
