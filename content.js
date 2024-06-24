@@ -194,79 +194,17 @@ if (auto) {
                 triggerMouseEvent (square_elem, "mouseup");
             }
             else
-                console.log ("*** Target node not found!");
-            
-            
-
-
-            // let square_elem = document.querySelector('div[data-cell-idx="' + i + '"]').children[0];
-            // square_elem.innerHTML = square_elem.innerHTML.replace(/<!--(?:.|\n)*?-->/gm, '');
-            // console.log("SQUARE ELEM " + i + ": ");
-            
-            // console.log(square_elem);
-
-            // square_elem.onmousedown = function () {
-            //     console.log("User moused down");
-            //     return true; // Not needed, as long as you don't return false
-            // };
-
-
-
-
-
-            //supposed to click twice, doesn't work
-            // square_elem.click();
-            // square_elem.dispatchEvent(new MouseEvent('click'));
-
-            // let temp_span = document.createElement("span");
-            // temp_span.setAttribute("class", "cell-input cell-input--queen");
-            
-            // let svg = document.createElement("svg");
-            // svg.setAttribute("class", "queens-icon-svg");
-            // svg.setAttribute("width", "24");
-            // svg.setAttribute("height", "24");
-            // svg.setAttribute("viewBox", "0 0 24 24");
-            // svg.setAttribute("xmlns", "http://www.w3.org/2000/svg");
-
-            // let title = document.createElement("title");
-            // title.innerHTML = "Queen";
-            // svg.append(title);
-
-
-            // let g = document.createElement("g");
-            // g.setAttribute("clip-path", "url(#clip0_3812_70403)");
-            // let path = document.createElement("path");
-            // path.setAttribute("d", "M23.25 7C23.25 7.69 22.69 8.25 22 8.25C21.89 8.25 21.78 8.21 21.68 8.18L19 17.99H5L2.32 8.18C2.21 8.21 2.11 8.25 2 8.25C1.31 8.25 0.75 7.69 0.75 7C0.75 6.31 1.31 5.75 2 5.75C2.69 5.75 3.25 6.31 3.25 7C3.25 7.31 3.13 7.59 2.94 7.8L9 13L11.65 4.18C11.14 4.03 10.75 3.57 10.75 3C10.75 2.31 11.31 1.75 12 1.75C12.69 1.75 13.25 2.31 13.25 3C13.25 3.56 12.87 4.02 12.35 4.18L15 13L21.06 7.8C20.87 7.58 20.75 7.31 20.75 7C20.75 6.31 21.31 5.75 22 5.75C22.69 5.75 23.25 6.31 23.25 7ZM19 19H5C4.45 19 4 19.45 4 20C4 20.55 4.45 21 5 21H19C19.55 21 20 20.55 20 20C20 19.45 19.55 19 19 19Z")
-            // g.append(path)
-            // svg.append(g)
-
-            // let def = document.createElement("def");
-            // let clip = document.createElement("clipPath");
-            // clip.setAttribute("id", "clip0_3812_70403");
-            // let rect = document.createElement("rect");
-            // rect.setAttribute("width", "24");
-            // rect.setAttribute("height", "24");
-            // rect.setAttribute("fill", "white");
-            // clip.append(rect);
-            // def.append(clip);
-            // svg.append(def)
-            // temp_span.append(svg)
-            // square_elem.append(temp_span);
-
+                console.log ("*** Target node not found! Contact the developer at tzwukerf@gmail.com");
 
 
         }
         
     }
 
-    // setTimeout(function() {
-    //     chrome.tabs.query({active:true,currentWindow:true},function(tabs){
-    //         //'tabs' will be an array with only one element: an Object describing the active tab
-    //         //  in the current window. To remove the tab, pass the ID: to chrome.tabs.remove().
-    //         chrome.tabs.remove(tabs[0].id);
-    //     });
-    // }, 1000);
 } else {
+
+    //TODO:
+    // - button code, which doesn't work yet
     let toolbar = document.getElementsByClassName("pr-game-web__toolbar-actions")[0];
     let solveButton = document.createElement("button");
     solveButton.setAttribute("class", "artdeco-button");

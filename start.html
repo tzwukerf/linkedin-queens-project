@@ -1,13 +1,22 @@
 <html>
     <head>
         <script src="popup.js"></script>
+        
+        <link rel="stylesheet" type="text/css" href="style.css">
     </head>
   <body>
     <h1>LinkedIn Queen Extension</h1>
     <div>
-        <input type="checkbox" id="auto-daily" name="auto-daily" checked />
-        <label for="auto-daily">Automatically Solve Daily</label>
-        <p>test</p>
+        <!-- Rounded switch -->
+        <!-- stylesheet and html taken from https://www.w3schools.com/howto/howto_css_switch.asp -->
+        <label class="switch">
+            <input type="checkbox" id="mode">
+            <span class="slider round"></span>
+        </label>
     </div>
+    <label for="appt-time">Choose an time to run: </label>
+    <input id="appt-time" type="time" name="appt-time" value="13:30" />
+    <!---<p id="hi"></p>-->
+
   </body>
 </html>

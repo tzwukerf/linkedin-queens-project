@@ -33,6 +33,8 @@ const SQUARES = 10; //number of rows, columns, queens, unique colors
 // ];
 
 var color = [];
+
+var color = [];
 var colArr = [];
 
 
