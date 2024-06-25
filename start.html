@@ -9,14 +9,19 @@
     <div>
         <!-- Rounded switch -->
         <!-- stylesheet and html taken from https://www.w3schools.com/howto/howto_css_switch.asp -->
+        <label for="mode">Auto-Run Daily</label>
         <label class="switch">
-            <input type="checkbox" id="mode">
+            <input type="checkbox" id="mode" checked>
             <span class="slider round"></span>
         </label>
     </div>
-    <label for="appt-time">Choose an time to run: </label>
-    <input id="appt-time" type="time" name="appt-time" value="13:30" />
+    <label for="appt-time">Choose a time to run: </label>
+    <input id="appt-time" type="time" name="appt-time" value="13:30:00"/>
     <!---<p id="hi"></p>-->
+
+    <label for="quantity">Solve After This Many Seconds:</label>
+    <input id="quantity" type="number" id="quantity" name="quantity" min="0" max="9999" value="0">
+    <p>Currently only available for auto run</p>
 
   </body>
 </html>

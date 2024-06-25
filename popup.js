@@ -1,102 +1,106 @@
 
-document.addEventListener('DOMContentLoaded', function() {
+//plan:
+// - once dom loaded, if firstLoad in storage is undefined, then load in default settings
+// - whenever the html is changed, set the storage
+// - based on the storage, send to backend
 
+var loaded_mode = undefined;
+var loaded_time = undefined;
 
+// from Stack Overflow: https://stackoverflow.com/questions/59440008/how-to-wait-for-asynchronous-chrome-storage-local-get-to-finish-before-continu
 
-
-
-
-
-    chrome.storage.sync.get(/* String or Array */["firstLoad"], function(items){
-        if (items.length == 0) {
-                console.log("ITEMS:" + items);
-
-                chrome.storage.sync.set({ "auto_run": "true" }, function(){});
-                chrome.storage.sync.set({ "p_time": "13:30" }, function(){});
-
-                chrome.storage.sync.set({ "firstLoad": "false" }, function(){});
-        }
-
-        chrome.storage.sync.get(/* String or Array */["auto_run"], function(items){
-            //  items = [ { "yourBody": "myBody" } ]
-            console.log("checks")
-            console.log(items.key)
-            if (items.key) {
-                document.getElementById("mode").checked = true;
-            } else {
-                document.getElementById("mode").checked = false;
-            }
-        
-        });
+const readLocalStorage = async (key) => {
     
-        chrome.storage.sync.get(/* String or Array */["p_time"], function(items){
-            console.log("time")
-            console.log(items.key)
-            //  items = [ { "yourBody": "myBody" } ]
-            document.querySelector('input[type="time"]').value = items.key;
+    return new Promise((resolve, reject) => {
         
-        });
-    
-
-    });
-
-    chrome.storage.onChanged.addListener((changes, namespace) => {
-        for (let [key, { oldValue, newValue }] of Object.entries(changes)) {
-          console.log(
-            `Storage key "${key}" in namespace "${namespace}" changed.`,
-            `Old value was "${oldValue}", new value is "${newValue}".`
-          );
-
-          if (key == "mode") {
-            chrome.storage.sync.set({ "mode": newValue }, function(){
-                //  A data saved callback omg so fancy
-            });
-          }
-          if (key == "p_time") {
-            chrome.storage.sync.set({ "p_time": newValue }, function(){
-                //  A data saved callback omg so fancy
-            });
-          }
-          
-        
-
-          //send over the mode
-
-        chrome.runtime.sendMessage({
-            msg: "mode", 
-            data: {
-                subject: "mode",
-                content: document.getElementById('mode').checked
-            }
-        });
-        console.log(document.getElementById('mode').checked)
-
-        // send over preferred time
-        chrome.runtime.sendMessage({
-            msg: "p_time", 
-            data: {
-                subject: "p_time",
-                content: document.querySelector('input[type="time"]').value
-            }
-        });
-
-
+      chrome.storage.sync.get([key], function (result) {
+        if (result[key] === undefined) {
+          //reject();
+          resolve(undefined);
+        } else {
+          resolve(result[key]);
         }
       });
-    
-    
-    
-    
-    
+    });
+  };
 
+getData();
+
+async function getData() {
     
-    
+    loaded_mode = await readLocalStorage('mode');
+    loaded_time = await readLocalStorage('p_time');
+    loaded_secs = await readLocalStorage('p_secs');
 
-    
+    if (document.readyState === "loading") {
+        // Loading hasn't finished yet
+        document.addEventListener("DOMContentLoaded", changeEvent);
+      } else {
+        // `DOMContentLoaded` has already fired
+        changeEvent();
+      }
+}
 
 
 
-});
+function changeEvent() {
+    var mode_elem = document.getElementById("mode");
+    var time_elem = document.getElementById("appt-time");
+    var secs_elem = document.getElementById("quantity");
+
+    if (loaded_mode != undefined) {
+        mode.checked = loaded_mode;
+    }
+    if (loaded_time != undefined) {
+        time_elem.value = loaded_time;
+    }
+    if (loaded_secs != undefined) {
+        secs_elem.value = loaded_secs;
+    }
+
+    mode_elem.addEventListener("change", (event) => {
+        mode_elem = document.getElementById("mode");
+        sendToStorage("mode", mode_elem.checked);
+        sendToBack("mode", mode_elem.checked);
+    });
+
+    time_elem.addEventListener("change", (event) => {
+        time_elem = document.getElementById("appt-time");
+        sendToStorage("p_time", time_elem.value);
+        //sendToBack("p_time", time_elem);
+    });
+
+    secs_elem.addEventListener("change", (event) => {
+        secs_elem = document.getElementById("quantity");
+        sendToStorage("p_secs", secs_elem.value);
+        //sendToBack("p_time", time_elem);
+    });
+
+}
+
+function sendToStorage(query, content) {
+    if (query == "mode") {
+        chrome.storage.sync.set({ "mode": content }, function () { });
+    } else if (query == "p_time") {
+        chrome.storage.sync.set({ "p_time": content }, function () { });
+    } else if (query == "p_secs") {
+        chrome.storage.sync.set({ "p_secs": content }, function () { });
+    }
+}
 
 
-//setTimeout(send(), 1000);
+function sendToBack(query, content) {
+    if (query == "mode") {
+        console.log("in mode send")
+        chrome.runtime.sendMessage({
+            message: "mode",
+            data: content
+        });
+    } else if (query == "p_time") {
+        chrome.runtime.sendMessage({
+            message: "p_time",
+            data: content
+        });
+
+    }
+}

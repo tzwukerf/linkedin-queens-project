@@ -4,79 +4,39 @@
 //TODO:
 // - make this run once a day, so far it doesn't work
 
-
-
+// default settings, will get changed upon user change to popup
 var auto = true;
-var s_min = 0;
-var s_hour = 12;
+var s_hour = 13;
+var s_min = 30;
+var p_secs = 0;
 
-var now = new Date();
-
-// get the current date and time as a string
-var currentDateTime = now.toLocaleString();
-var year = now.getFullYear();
-var month = now.getMonth() + 1;
-var date = now.getDate();
-var hour = now.getHours();
-var min = now.getMinutes();
-
-console.log(currentDateTime);
-console.log(hour);
-console.log(min);
-
-
-// can't interact with DOM, have to send async messages
-chrome.runtime.onMessage.addListener(
-    function(request) {
-      console.log(request.data.subject);
-      if (request.data.subject == "mode") {
-        if (request.data.content) {
-            auto = true;
-        } else {
-            auto = false;
-        }
-      } else if (request.data.subject == "p_time") {
-
-      }
+// message code
+chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+    
+    console.log(request.message)
+    console.log(request.data);
+    if (request.data == undefined) {
+        console.log("ERROR: request.data undefined mode. Contact the developer tzwukerf@gmail.com")
+        return;
     }
-  );
 
-
-
-// code from stack overflow, untested, https://stackoverflow.com/questions/60591487/chrome-extensions-how-to-set-function-to-execute-when-day-has-changed
-function tick() {
-    // Re-calculate the timestamp for the next day
-    let next = new Date(Date.now() + 24 * 60 * 60 * 1000);
-
-    // Adjust the timestamp if you want to run the code
-    // around the same time of each day (e.g. 10:00 am)
-    next.setHours(s_hour);
-    next.setMinutes(s_min);
-    next.setSeconds(0);
-    next.setMilliseconds(0);
-
-    // Save the new timestamp
-    localStorage.savedTimestamp = next.getTime();
-
-    // Run the function
-    main();
-}
-
-function checkTimestamp() {
-    if (localStorage.savedTimestamp) {
-        let timestamp = parseInt(localStorage.savedTimestamp);
-
-        if (Date.now() >= timestamp)
-            tick();
+    // message
+    if (request.message == "mode") {
+        (request.data) ? (auto = true) : (auto = false)
+    } else if (request.message == "p_time") {
+        var time_msg = request.data.split(":");
+        s_hour = parseInt(time_msg[0]);
+        s_min = parseInt(time_msg[1]);
+    } else if (request.message == "p_secs") {
+        p_secs = request.data;
     } else {
-        // First time running
-        tick();
+        console.log("ERROR: else statement in event listener. Contact developer tzwukerf@gmail.com");
+        return;
     }
-}
+  })
 
-// Check every minute
-setInterval(checkTimestamp, 60000);
 
+// main background scripts that runs when triggered
 
 function main() {
     if (auto) {
@@ -85,7 +45,6 @@ function main() {
         buttonRun();
     }
 }
-
 
 
 function autoRun() {
@@ -97,7 +56,7 @@ function autoRun() {
 
 function buttonRun() {
     console.log("button mode enabled");
-
+    console.log("this feature is not yet implemented")
 }
 
 // opening the tab
@@ -109,51 +68,3 @@ function openTab() {
     chrome.windows.create(newURL);
 }
 
-
-
-// document.addEventListener('DOMContentLoaded', function() {
-//     var test = document.getElementById("hi");
-//         console.log(document);
-//         test.innerText = currentDateTime;
-
-//         function send() {
-//             chrome.runtime.sendMessage({
-//                 msg: "something_completed", 
-//                 data: {
-//                     subject: "Loading",
-//                     content: "Just completed!"
-//                 }
-//             });
-//         }
-//     });
-
-    
-
-
-
-    //have this here as background
-    
-
-
-    // chrome.runtime.onMessage.addListener(
-    //     function(request, sender, sendResponse) {
-    //         if (request.msg === "something_completed") {
-    //             //  To do something
-    //             console.log(request.data.subject)
-    //             console.log(request.data.content)
-    //             var div = document.getElementById('container');
-
-    //             div.innerHTML += 'Extra stuff';
-    //         }
-    //     }
-    // );
-
-
-    //close in the content.js after solving and putting on linkedin
-    // setTimeout(function() {
-    //     chrome.tabs.query({active:true,currentWindow:true},function(tabs){
-    //         //'tabs' will be an array with only one element: an Object describing the active tab
-    //         //  in the current window. To remove the tab, pass the ID: to chrome.tabs.remove().
-    //         chrome.tabs.remove(tabs[0].id);
-    //     });
-    // }, 10000);
