@@ -10,6 +10,13 @@ var s_hour = 13;
 var s_min = 30;
 var p_secs = 0;
 
+// date
+var date = new Date();
+var hour = date.getHours();
+var min = date.getMinutes();
+var year = date.getFullYear();
+var month = date.getMonth();
+
 // message code
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     

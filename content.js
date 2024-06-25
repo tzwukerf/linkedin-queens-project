@@ -4,19 +4,29 @@
 // DONE: with the mistaken queen - make it so that after completion it doesn't click again and screws everything over (there is an enabled disable tag somewhere)
 // - make communication with background work
 // DONE UNTESTED: - make it so the set timeout isnt hard coded and instead runs whne loaded
-// DONE UNTESTED: - make it so that that option for how long to wait until solve
+// - make it so that that option for how long to wait until solve
 // - make the button mode work
 
 
 document.addEventListener("DOMContentLoaded", loadedEvent);
+var secondsToWait = 0;
+
+chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+    if (request.message == "p_secs") {
+      console.log("IN CONTENT PSECS");
+      console.log(request.message);
+      secondsToWait = request.message;
+    }
+  })
+
 
 function loadedEvent() {
     var resume = document.getElementsByTagName('button');
     console.log("BUTTONS: ")
     console.log(resume);
     resume[11].click();
-
-    var secondsToWait = 0;  //change this
+    console.log("IN LOADED EVENT CONTENT SECONDS TO WAIT")
+    console.log(secondsToWait);
 
     if (secondsToWait) {
         setTimeout(outerWrapper, secondsToWait * 1000);
