@@ -68,6 +68,8 @@ function changeEvent() {
         time_elem = document.getElementById("appt-time");
         sendToStorage("p_time", time_elem.value);
         //sendToBack("p_time", time_elem);
+        console.log("TIME CHANGED")
+        console.log(chrome.storage.sync.get("p_time"));
     });
 
     secs_elem.addEventListener("change", (event) => {
@@ -77,7 +79,6 @@ function changeEvent() {
     });
 
 }
-
 function sendToStorage(query, content) {
     if (query == "mode") {
         chrome.storage.sync.set({ "mode": content }, function () { });

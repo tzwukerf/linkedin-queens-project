@@ -2,16 +2,12 @@
 // this interacts with the popup dom
 
 //TODO:
-// DONE UNTESTED: bigggg untested. MV3 uses alarms and I don't know if they're persistent or not. make this run once a day, so far it doesn't work
+// DONE: make this run once a day
+// chrome says it kills workers after 15 mins or something, test to see if it works after 15 mins
 
 
 
-// date
-var date = new Date();
-var hour = date.getHours();
-var min = date.getMinutes();
-var year = date.getFullYear();
-var month = date.getMonth();
+
 
 // message code
 // chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
@@ -58,63 +54,86 @@ chrome.runtime.onInstalled.addListener(function (details) {
 
 // main background scripts that runs when triggered
 
-startAlarm("dateAlarm", 1);
 
-async function startAlarm(name, duration) {
-    await chrome.alarms.create(name, { delayInMinutes: 1, periodInMinutes: 1 });
-}
+chrome.alarms.create("dailyAlarm", { delayInMinutes: 1, periodInMinutes: 1 });
 
 chrome.alarms.onAlarm.addListener(() => {
     main();
-  });
-
-
+});
 function main() {
+    console.log(chrome.storage.sync.get("p_time"));
 
     // default settings, will get changed upon user change to popup
     var auto;
     var loaded_time;
-    var loaded_secs;
 
-    const readLocalStorage = async (key) => {
+    chrome.storage.sync.get(["mode"]).then((result_mode) => {
+        auto = result_mode.mode;
+        console.log("Value is " + result_mode.mode);
 
-        return new Promise((resolve, reject) => {
-
-            chrome.storage.sync.get([key], function (result) {
-                if (result[key] === undefined) {
-                    //reject();
-                    resolve(undefined);
+        chrome.storage.sync.get(["p_time"]).then((result_time) => {
+            loaded_time = result_time.p_time;
+            console.log("Value is " + result_time.p_time);
+    
+            if (auto != undefined) {
+                if (auto) {
+                    console.log("auto run")
+                    console.log(loaded_time)
+                    autoRun(loaded_time);
                 } else {
-                    resolve(result[key]);
+                    buttonRun();
                 }
-            });
-        });
-    };
+            }
+          });
+      });
+
+      
 
 
+    console.log("main run")
 
-    async function getData() {
-        auto = await readLocalStorage('mode');
-        loaded_time = await readLocalStorage('p_time');
-        loaded_secs = await readLocalStorage('p_secs');
-    }
+    // const readLocalStorage = async (key) => {
 
-    getData();
+    //     return new Promise((resolve, reject) => {
 
-    if (auto != undefined) {
-        if (auto) {
-            autoRun(loaded_time);
-        } else {
-            buttonRun();
-        }
-    }
+    //         chrome.storage.sync.get([key], function (result) {
+    //             if (result[key] === undefined) {
+    //                 //reject();
+    //                 resolve(undefined);
+    //             } else {
+    //                 resolve(result[key]);
+    //             }
+    //         });
+    //     });
+    // };
+
+
+    // async function getData() {
+    //     auto = await readLocalStorage('mode');
+    //     loaded_time = await readLocalStorage('p_time');
+    //     loaded_secs = await readLocalStorage('p_secs');
+    // }
+
+    // getData();
+    // console.log(auto);
+    // console.log(loaded_time);
+
+    
 }
 
 
 function autoRun(given_time) {
     console.log("auto enabled");
+    // date
+    var date = new Date();
+    var hour = date.getHours();
+    var min = date.getMinutes();
+    var year = date.getFullYear();
+    var month = date.getMonth();
     var s_hour = parseInt(given_time.split(":")[0]);
     var s_min = parseInt(given_time.split(":")[1]);
+    console.log(date)
+    console.log(given_time);
     if (s_hour == hour && s_min <= min) {
         openTab();
     }

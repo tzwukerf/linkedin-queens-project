@@ -9,7 +9,6 @@
 
 
 document.addEventListener("DOMContentLoaded", loadedEvent);
-var secondsToWait = 0;
 
 // chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 //     if (request.data == undefined) {
@@ -24,19 +23,28 @@ var secondsToWait = 0;
 //   })
 
 
+
 function loadedEvent() {
+    var secondsToWait;
     var resume = document.getElementsByTagName('button');
     console.log("BUTTONS: ")
     console.log(resume);
     resume[11].click();
-    console.log("IN LOADED EVENT CONTENT SECONDS TO WAIT")
-    console.log(secondsToWait);
+    chrome.storage.sync.get(["p_secs"]).then((result) => {
+        secondsToWait = result.p_secs;
+        console.log("Value is " + result.p_secs);
 
-    if (secondsToWait) {
-        setTimeout(outerWrapper, secondsToWait * 1000);
-    } else {
-        setTimeout(outerWrapper, 0);
-    }
+        console.log("IN LOADED EVENT CONTENT SECONDS TO WAIT")
+        console.log(secondsToWait);
+
+        if (secondsToWait) {
+            setTimeout(outerWrapper, secondsToWait * 1000);
+        } else { // undefined or 0 case
+            setTimeout(outerWrapper, 0);
+        }
+    });
+
+
 }
 
 
@@ -213,7 +221,7 @@ function outerWrapper() { //no sleep in javascript
 
             // Taken from this Stack Overflow Comment: https://stackoverflow.com/a/24026594
 
-            square_elem.onmousedown = function() {
+            square_elem.onmousedown = function () {
                 console.log("User moused down on cell " + i);
                 return true; // Not needed, as long as you don't return false
             };
