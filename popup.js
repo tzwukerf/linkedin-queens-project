@@ -40,45 +40,59 @@ document.addEventListener('DOMContentLoaded', function() {
 
     });
 
-    // chrome.storage.onChanged.addListener((changes, namespace) => {
-    //     for (let [key, { oldValue, newValue }] of Object.entries(changes)) {
-    //       console.log(
-    //         `Storage key "${key}" in namespace "${namespace}" changed.`,
-    //         `Old value was "${oldValue}", new value is "${newValue}".`
-    //       );
+    chrome.storage.onChanged.addListener((changes, namespace) => {
+        for (let [key, { oldValue, newValue }] of Object.entries(changes)) {
+          console.log(
+            `Storage key "${key}" in namespace "${namespace}" changed.`,
+            `Old value was "${oldValue}", new value is "${newValue}".`
+          );
+
+          if (key == "mode") {
+            chrome.storage.sync.set({ "mode": newValue }, function(){
+                //  A data saved callback omg so fancy
+            });
+          }
+          if (key == "p_time") {
+            chrome.storage.sync.set({ "p_time": newValue }, function(){
+                //  A data saved callback omg so fancy
+            });
+          }
+          
+        
+
+          //send over the mode
+
+        chrome.runtime.sendMessage({
+            msg: "mode", 
+            data: {
+                subject: "mode",
+                content: document.getElementById('mode').checked
+            }
+        });
+        console.log(document.getElementById('mode').checked)
+
+        // send over preferred time
+        chrome.runtime.sendMessage({
+            msg: "p_time", 
+            data: {
+                subject: "p_time",
+                content: document.querySelector('input[type="time"]').value
+            }
+        });
 
 
-
-    //     }
-    //   });
-    
-    
-    
-    
-    
-
-    
-    
-
-    //send over the mode
-
-    chrome.runtime.sendMessage({
-        msg: "mode", 
-        data: {
-            subject: "mode",
-            content: document.getElementById('mode').checked
         }
-    });
-    console.log(document.getElementById('mode').checked)
+      });
+    
+    
+    
+    
+    
 
-    // send over preferred time
-    chrome.runtime.sendMessage({
-        msg: "p_time", 
-        data: {
-            subject: "p_time",
-            content: document.querySelector('input[type="time"]').value
-        }
-    });
+    
+    
+
+    
 
 
 

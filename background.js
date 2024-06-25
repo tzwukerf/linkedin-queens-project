@@ -1,6 +1,10 @@
 
 // this interacts with the popup dom
 
+//TODO:
+// - make this run once a day, so far it doesn't work
+
+
 
 var auto = true;
 var s_min = 0;

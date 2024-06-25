@@ -1,4 +1,14 @@
 
+
+//TODO:
+// - make it so that it clicks start (can only click resume)
+// - make it so that after completion it deletes the tab
+// - make it so that after completion it doesn't click again and screws everything over (there is an enabled disable tag somewhere)
+// - make communication with background work
+
+
+
+
 setTimeout(function() {var resume = document.getElementsByTagName('button');
 console.log(resume);
 resume[11].click();
