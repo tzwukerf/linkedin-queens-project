@@ -61,7 +61,7 @@ function changeEvent() {
     mode_elem.addEventListener("change", (event) => {
         mode_elem = document.getElementById("mode");
         sendToStorage("mode", mode_elem.checked);
-        sendToBack("mode", mode_elem.checked);
+        //sendToBack("mode", mode_elem.checked);
     });
 
     time_elem.addEventListener("change", (event) => {

@@ -11,13 +11,17 @@
 document.addEventListener("DOMContentLoaded", loadedEvent);
 var secondsToWait = 0;
 
-chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-    if (request.message == "p_secs") {
-      console.log("IN CONTENT PSECS");
-      console.log(request.message);
-      secondsToWait = request.message;
-    }
-  })
+// chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+//     if (request.data == undefined) {
+//         console.log("ERROR: request.data undefined mode. Contact the developer tzwukerf@gmail.com")
+//         return;
+//     }
+//     if (request.message == "p_secs") {
+//       console.log("IN CONTENT PSECS");
+//       console.log(request.message);
+//       secondsToWait = request.message;
+//     }
+//   })
 
 
 function loadedEvent() {
