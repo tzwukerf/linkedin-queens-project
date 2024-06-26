@@ -3,6 +3,9 @@ Repository of my Google Chrome Extension that automatically solves the queens ga
 
 ![image](https://github.com/tzwukerf/linkedin-queens-project/assets/77770175/879b0308-90d7-4945-8963-f1d5b71d8b69)
 
+![image](https://github.com/tzwukerf/linkedin-queens-project/assets/77770175/c333a57e-416b-4f54-bb9f-fc501739c93d)
+
+
 ## Features
 
 - Choice between automatically run at a time of day or having a solve button in the game page.
@@ -27,9 +30,11 @@ Repository of my Google Chrome Extension that automatically solves the queens ga
 6. The extension should show up. If you click the top right where the puzzle piece is, then on the extension you can change its settings.
 
 This is how you know you have the extension:
+
 ![image](https://github.com/tzwukerf/linkedin-queens-project/assets/77770175/bcb7521b-24ed-4e3c-a27a-be1583694893)
 
 Then click the puzzle piece in the top right:
+
 ![image](https://github.com/tzwukerf/linkedin-queens-project/assets/77770175/00e4ff8b-96bd-4a5f-9872-6ce6ece3aa58)
 
 ## Contact
