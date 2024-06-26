@@ -16,6 +16,8 @@ Repository of my Google Chrome Extension that automatically solves the queens ga
 
 ## Installation
 
+I have not paid the $5 to register my account to put this on the Chrome Web Store.
+
 1. Clone the Github
    - Easiest way is to go in a terminal and run "git clone https://github.com/tzwukerf/linkedin-queens-project.git", although it's your choice how you choose to clone it.
 2. Go to chrome://extensions/
