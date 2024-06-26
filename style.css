@@ -1,22 +1,78 @@
-/* stylesheet and html taken from https://www.w3schools.com/howto/howto_css_switch.asp */
+/* stylesheet and html for the switch taken from https://www.w3schools.com/howto/howto_css_switch.asp */
+
+/* no arrows on numbers input for Chrome and others */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+body {
+    font-family: "Red Hat Display", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+}
+
+#title-head {
+    font-weight: 500;
+}
+
+input[type='number'] {
+    width: 10%;
+    text-align: center;
+    -moz-appearance: textfield;
+    /* Firefox no arrows on numbers input */
+}
+
+#auto-label {
+    display: inline-block;
+    margin-right: 10%;
+    margin-bottom: 5%;
+    vertical-align: bottom;
+}
+
+p {
+    font-size: 80%;
+    text-align: center;
+}
+
+label {
+    font-size: 120%;
+    position: relative;
+}
+
+#appt-time {
+    display: block;
+    margin: 0 auto;
+}
+
+#sec-beg {
+    margin-right: 3%;
+}
+
+#sec-end {
+    margin-left: 3%;
+}
 
 /* The switch - the box around the slider */
 .switch {
+    vertical-align: 30%;
     position: relative;
     display: inline-block;
-    width: 60px;
-    height: 34px;
-  }
-  
-  /* Hide default HTML checkbox */
-  .switch input {
+    width: 30px;
+    height: 17px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
     opacity: 0;
     width: 0;
     height: 0;
-  }
-  
-  /* The slider */
-  .slider {
+}
+
+/* The slider */
+.slider {
     position: absolute;
     cursor: pointer;
     top: 0;
@@ -26,39 +82,39 @@
     background-color: #ccc;
     -webkit-transition: .4s;
     transition: .4s;
-  }
-  
-  .slider:before {
+}
+
+.slider:before {
     position: absolute;
     content: "";
-    height: 26px;
-    width: 26px;
-    left: 4px;
-    bottom: 4px;
+    height: 13px;
+    width: 13px;
+    left: 2px;
+    bottom: 2px;
     background-color: white;
     -webkit-transition: .4s;
     transition: .4s;
-  }
-  
-  input:checked + .slider {
+}
+
+input:checked+.slider {
     background-color: #2196F3;
-  }
-  
-  input:focus + .slider {
+}
+
+input:focus+.slider {
     box-shadow: 0 0 1px #2196F3;
-  }
-  
-  input:checked + .slider:before {
-    -webkit-transform: translateX(26px);
-    -ms-transform: translateX(26px);
-    transform: translateX(26px);
-  }
-  
-  /* Rounded sliders */
-  .slider.round {
-    border-radius: 34px;
-  }
-  
-  .slider.round:before {
+}
+
+input:checked+.slider:before {
+    -webkit-transform: translateX(13px);
+    -ms-transform: translateX(13px);
+    transform: translateX(13px);
+}
+
+/* Rounded sliders */
+.slider.round {
+    border-radius: 17px;
+}
+
+.slider.round:before {
     border-radius: 50%;
-  }
+}

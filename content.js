@@ -5,7 +5,7 @@
 // DONE using storage untested - make communication with background work
 // DONE: - make it so the set timeout isnt hard coded and instead runs whne loaded
 // DONE UNTESTED: - make it so that that option for how long to wait until solve
-// - make the button mode work
+// DONE UNTESTED: make the button mode work
 
 
 document.addEventListener("DOMContentLoaded", loadedEvent);

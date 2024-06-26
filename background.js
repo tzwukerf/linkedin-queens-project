@@ -3,7 +3,7 @@
 
 //TODO:
 // DONE: make this run once a day
-// chrome says it kills workers after 15 mins or something, test to see if it works after 15 mins
+// DONE: chrome says it kills workers after 15 mins or something, test to see if it works after 15 mins
 
 
 chrome.runtime.onInstalled.addListener(function (details) {
