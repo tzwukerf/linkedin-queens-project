@@ -5,6 +5,9 @@ Repository of my Google Chrome Extension that automatically solves the queens ga
 
 ![image](https://github.com/tzwukerf/linkedin-queens-project/assets/77770175/c333a57e-416b-4f54-bb9f-fc501739c93d)
 
+![image](https://github.com/tzwukerf/linkedin-queens-project/assets/77770175/9699e94f-27c4-4e7c-b70f-8cbe24248a50)
+
+
 
 ## Features
 
