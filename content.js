@@ -2,27 +2,18 @@
 // DONE: resume and start are both the same buttons - make it so that it clicks start (can only click resume)
 // LOW: maybe? maybe have this as an option - make it so that after completion it deletes the tab
 // DONE: with the mistaken queen - make it so that after completion it doesn't click again and screws everything over (there is an enabled disable tag somewhere)
-// - make communication with background work
-// DONE UNTESTED: - make it so the set timeout isnt hard coded and instead runs whne loaded
-// - make it so that that option for how long to wait until solve
+// DONE using storage untested - make communication with background work
+// DONE: - make it so the set timeout isnt hard coded and instead runs whne loaded
+// DONE UNTESTED: - make it so that that option for how long to wait until solve
 // - make the button mode work
 
 
 document.addEventListener("DOMContentLoaded", loadedEvent);
 
-// chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-//     if (request.data == undefined) {
-//         console.log("ERROR: request.data undefined mode. Contact the developer tzwukerf@gmail.com")
-//         return;
-//     }
-//     if (request.message == "p_secs") {
-//       console.log("IN CONTENT PSECS");
-//       console.log(request.message);
-//       secondsToWait = request.message;
-//     }
-//   })
+var auto;
 
-
+console.log("benchmark")
+loadedEvent();
 
 function loadedEvent() {
     var secondsToWait;
@@ -30,19 +21,27 @@ function loadedEvent() {
     console.log("BUTTONS: ")
     console.log(resume);
     resume[11].click();
-    chrome.storage.sync.get(["p_secs"]).then((result) => {
-        secondsToWait = result.p_secs;
-        console.log("Value is " + result.p_secs);
+    
+    chrome.storage.sync.get(["mode"]).then((result_mode) => {
 
-        console.log("IN LOADED EVENT CONTENT SECONDS TO WAIT")
-        console.log(secondsToWait);
+        auto = result_mode.mode;
 
-        if (secondsToWait) {
-            setTimeout(outerWrapper, secondsToWait * 1000);
-        } else { // undefined or 0 case
-            setTimeout(outerWrapper, 0);
-        }
+
+        chrome.storage.sync.get(["p_secs"]).then((result) => {
+            secondsToWait = result.p_secs;
+            console.log("Value is " + result.p_secs);
+
+            console.log("IN LOADED EVENT CONTENT SECONDS TO WAIT")
+            console.log(secondsToWait);
+
+            if (secondsToWait) {
+                setTimeout(outerWrapper, secondsToWait * 1000);
+            } else { // undefined or 0 case
+                setTimeout(outerWrapper, 0);
+            }
+        });
     });
+
 
 
 }
@@ -57,8 +56,6 @@ function outerWrapper() { //no sleep in javascript
 
     let SQUARES = Math.sqrt(grid.children.length); //number of rows, columns, queens, unique colors
     let t_grid = [];
-
-    var auto = true;
 
     for (let i = 0; i < SQUARES; i++) {
         //initialize 10 colors, since we can't have
@@ -198,8 +195,12 @@ function outerWrapper() { //no sleep in javascript
     // code to get it onto linkedin
 
     let s_grid = solver();
+    
+    console.log("auto content")
+    console.log(auto);
 
-    if (auto) {
+
+    function solveScript() {
         for (let i = 0; i < SQUARES * SQUARES; i++) {
             let j = Math.floor(i / SQUARES);
             let k = i % SQUARES;
@@ -263,30 +264,34 @@ function outerWrapper() { //no sleep in javascript
 
 
         }
+    }
 
+
+    if (auto) {
+        solveScript();
     } else {
-
+        console.log("in button code")
         //TODO:
         // - button code, which doesn't work yet
-        let toolbar = document.getElementsByClassName("pr-game-web__toolbar-actions")[0];
+        let toolbar = document.getElementsByClassName("pr-game-web__aux-controls")[0];
         let solveButton = document.createElement("button");
-        solveButton.setAttribute("class", "artdeco-button");
-        solveButton.setAttribute("class", "artdeco-button--muted");
-        solveButton.setAttribute("class", "artdeco-button--2");
-        solveButton.setAttribute("class", "artdeco-button--secondary");
-        solveButton.setAttribute("class", "ember-view");
-        solveButton.setAttribute("class", "aux-controls-btn");
-
+        // artdeco-button artdeco-button--muted artdeco-button--2 artdeco-button--secondary ember-view aux-controls-btn
+            
+        solveButton.setAttribute("class", "artdeco-button artdeco-button--muted artdeco-button--2 artdeco-button--secondary ember-view aux-controls-btn");
         solveButton.setAttribute("id", "auto-off-button");
-        solveButton.setAttribute("data-aux-btn", "clear");
+        solveButton.setAttribute("data-aux-btn", "solve");
         solveButton.setAttribute("type", "button");
 
         let temp_span = document.createElement("span");
         temp_span.setAttribute("class", "artdeco-button__text");
-        temp_span.innerHTML = "Auto Solve";
+        temp_span.innerHTML = "Solve";
 
         solveButton.append(temp_span);
         toolbar.append(solveButton);
         toolbar.insertBefore(solveButton, toolbar.firstChild);
+
+        solveButton.onclick = function() {
+            solveScript();
+        }
     }
 }

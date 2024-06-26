@@ -6,34 +6,6 @@
 // chrome says it kills workers after 15 mins or something, test to see if it works after 15 mins
 
 
-
-
-
-// message code
-// chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-
-//     console.log(request.message)
-//     console.log(request.data);
-//     if (request.data == undefined) {
-//         console.log("ERROR: request.data undefined mode. Contact the developer tzwukerf@gmail.com")
-//         return;
-//     }
-
-//     // message
-//     if (request.message == "mode") {
-//         (request.data) ? (auto = true) : (auto = false)
-//     } else if (request.message == "p_time") {
-//         var time_msg = request.data.split(":");
-//         s_hour = parseInt(time_msg[0]);
-//         s_min = parseInt(time_msg[1]);
-//     } else if (request.message == "p_secs") {
-//         p_secs = request.data;
-//     } else {
-//         console.log("ERROR: else statement in event listener. Contact developer tzwukerf@gmail.com");
-//         return;
-//     }
-//   })
-
 chrome.runtime.onInstalled.addListener(function (details) {
     if (details.reason == "install") {
         console.log("This is a first install!");
@@ -74,7 +46,7 @@ function main() {
         chrome.storage.sync.get(["p_time"]).then((result_time) => {
             loaded_time = result_time.p_time;
             console.log("Value is " + result_time.p_time);
-    
+
             if (auto != undefined) {
                 if (auto) {
                     console.log("auto run")
@@ -84,59 +56,64 @@ function main() {
                     buttonRun();
                 }
             }
-          });
-      });
-
-      
+        });
+    });
 
 
     console.log("main run")
 
-    // const readLocalStorage = async (key) => {
-
-    //     return new Promise((resolve, reject) => {
-
-    //         chrome.storage.sync.get([key], function (result) {
-    //             if (result[key] === undefined) {
-    //                 //reject();
-    //                 resolve(undefined);
-    //             } else {
-    //                 resolve(result[key]);
-    //             }
-    //         });
-    //     });
-    // };
-
-
-    // async function getData() {
-    //     auto = await readLocalStorage('mode');
-    //     loaded_time = await readLocalStorage('p_time');
-    //     loaded_secs = await readLocalStorage('p_secs');
-    // }
-
-    // getData();
-    // console.log(auto);
-    // console.log(loaded_time);
-
-    
 }
 
 
 function autoRun(given_time) {
     console.log("auto enabled");
+
     // date
     var date = new Date();
     var hour = date.getHours();
     var min = date.getMinutes();
+    var day = date.getDate();
     var year = date.getFullYear();
     var month = date.getMonth();
     var s_hour = parseInt(given_time.split(":")[0]);
     var s_min = parseInt(given_time.split(":")[1]);
     console.log(date)
     console.log(given_time);
-    if (s_hour == hour && s_min <= min) {
+
+    if (s_hour == hour && s_min == min) {
         openTab();
     }
+
+    //untested
+    // chrome.storage.sync.get(["last_day"]).then((result) => {
+
+    //     // date
+    //     var date = new Date();
+    //     var hour = date.getHours();
+    //     var min = date.getMinutes();
+    //     var day = date.getDate();
+    //     var year = date.getFullYear();
+    //     var month = date.getMonth();
+    //     var s_hour = parseInt(given_time.split(":")[0]);
+    //     var s_min = parseInt(given_time.split(":")[1]);
+    //     console.log(date)
+    //     console.log(given_time);
+
+    //     if (last_day == undefined) {
+    //         chrome.storage.sync.set({ "last_day": day }, function () {
+    //             if (s_hour == hour && s_min <= min) {
+    //                 openTab();
+    //             }
+    //         });
+    //     } else {
+    //         if (day != result) {
+    //             if (s_hour == hour && s_min <= min) {
+    //                 openTab();
+    //             }
+    //         }
+    //     }
+    // });
+
 }
 
 function buttonRun() {

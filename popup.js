@@ -58,10 +58,21 @@ function changeEvent() {
         secs_elem.value = loaded_secs;
     }
 
+    if (mode_elem.checked) {
+        document.getElementById("auto-label").innerHTML = "Auto-Run Daily";
+    } else {
+        document.getElementById("auto-label").innerHTML = "Button Mode";
+    }
+
     mode_elem.addEventListener("change", (event) => {
         mode_elem = document.getElementById("mode");
         sendToStorage("mode", mode_elem.checked);
         //sendToBack("mode", mode_elem.checked);
+        if (mode_elem.checked) {
+            document.getElementById("auto-label").innerHTML = "Auto-Run Daily";
+        } else {
+            document.getElementById("auto-label").innerHTML = "Button Mode";
+        }
     });
 
     time_elem.addEventListener("change", (event) => {
