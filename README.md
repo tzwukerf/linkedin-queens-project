@@ -1,9 +1,15 @@
 # linkedin-queens-project
 Repository of my Google Chrome Extension that automatically solves the queens game on LinkedIn.
 
+What the extension popup looks like:
+
 ![image](https://github.com/tzwukerf/linkedin-queens-project/assets/77770175/879b0308-90d7-4945-8963-f1d5b71d8b69)
 
+Results:
+
 ![image](https://github.com/tzwukerf/linkedin-queens-project/assets/77770175/c333a57e-416b-4f54-bb9f-fc501739c93d)
+
+Button mode:
 
 ![image](https://github.com/tzwukerf/linkedin-queens-project/assets/77770175/9699e94f-27c4-4e7c-b70f-8cbe24248a50)
 
