@@ -1,6 +1,6 @@
 {
     "manifest_version": 3,
-    "name": "LinkedIn Queen Extension",
+    "name": "LinkedIn Queens Game Solver Extension",
     "description": "Base Level Extension",
     "version": "1.0",
     "action": {
